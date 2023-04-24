@@ -1,7 +1,13 @@
-if [[ $(type -t get_build_var) != "function" ]]; then
-    source build/envsetup.sh
-fi
 set -eu
+
+function _get_build_var {
+    set +u
+    if [[ $(type -t get_build_var) != "function" ]]; then
+        source build/envsetup.sh
+    fi
+    get_build_var "$@"
+    set -u
+}
 
 : "${num_procs:=$(nproc)}"
 GREEN='\033[0;32m'
@@ -10,7 +16,7 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-targetFileName="lineage-$(get_build_var LINEAGE_VERSION).zip"
+targetFileName="lineage-$(_get_build_var LINEAGE_VERSION).zip"
 targetFile="$ANDROID_PRODUCT_OUT/$targetFileName"
 
 function is_hardlink {
@@ -44,7 +50,7 @@ if make -j$((num_procs + 1)) bacon; then
         echo -e "${RED}Found git LFS files in $outDir!${NC}" && false
     fi
 
-    otaFile="$ANDROID_PRODUCT_OUT/$(get_build_var TARGET_PRODUCT)-ota-"*.zip
+    otaFile="$ANDROID_PRODUCT_OUT/$(_get_build_var TARGET_PRODUCT)-ota-"*.zip
     [ ! -e "$otaFile" ] || rm "$otaFile"
     if is_hardlink "$targetFile"; then
         tmpFile="$(mktemp -p /dev/shm)"

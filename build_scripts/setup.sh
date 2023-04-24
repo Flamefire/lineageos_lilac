@@ -1,8 +1,8 @@
 MY_LINEAGE_ROOT="$(dirname "$PWD")"
 
-defaultOutPath="/mnt/lineage_SSD/out"
-certPath="$MY_LINEAGE_ROOT/android-certs"
-systemImgPath="/mnt/lineage_SSD/SystemImg"
+defaultOutPath="$(readlink -f "$MY_LINEAGE_ROOT/out")"
+certPath="$(readlink -f "$MY_LINEAGE_ROOT/android-certs")"
+systemImgPath="$(readlink -f "$MY_LINEAGE_ROOT/SystemImg")"
 
 export LINEAGE_DEV_CERTIFICATE=vendor/certs/releasekey
 export LINEAGE_VERITY_CERTIFICATE=vendor/certs/verity
