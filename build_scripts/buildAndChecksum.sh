@@ -9,6 +9,17 @@ function _get_build_var {
     set -u
 }
 
+function _mka {
+    set +u
+    if [[ $(type -t mka) != "function" ]]; then
+        source build/envsetup.sh
+    fi
+    mka "$@"
+    res=$?
+    set -u
+    return $res
+}
+
 : "${num_procs:=$(nproc)}"
 GREEN='\033[0;32m'
 LGREEN='\033[1;32m'
@@ -39,12 +50,12 @@ fi
 
 if [ "${CLEAN_BUILD:-0}" == "1" ]; then
     echo -e "${YELLOW}Cleaning build dir"
-    make installclean
+    _mka installclean
 fi
 
-echo -e "${YELLOW}Starting build with ${GREEN}$((num_procs + 1))x${YELLOW} parallel${NC}"
+echo -e "${YELLOW}Starting build${NC}"
 
-if make -j$((num_procs + 1)) bacon; then
+if _mka bacon; then
     outDir="$OUT_DIR_COMMON_BASE/$(basename "$PWD")"
     if [ "${CHECK_LFS:-1}" == "1" ] && grep -rF --files-with-matches "https://git-lfs." "$outDir"; then
         echo -e "${RED}Found git LFS files in $outDir!${NC}" && false
