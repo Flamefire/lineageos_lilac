@@ -44,7 +44,7 @@ if [ ! -e "vendor/sony/lilac/lilac-vendor.mk" ]; then
   SKIP_EXTRACT=0
 fi
 
-if ! repo forall -c '[ ! -e .lfsconfig ] || git lfs pull'; then
+if [ "${CHECK_LFS:-1}" == "1" ] && ! repo forall -c '[ ! -e .lfsconfig ] || git lfs pull'; then
   echo "Git LFS pull failed:"
   repo forall -c 'git lfs pull || pwd'
   sleep 10s

@@ -46,7 +46,7 @@ echo -e "${YELLOW}Starting build with ${GREEN}$((num_procs + 1))x${YELLOW} paral
 
 if make -j$((num_procs + 1)) bacon; then
     outDir="$OUT_DIR_COMMON_BASE/$(basename "$PWD")"
-    if grep -rF --files-with-matches "https://git-lfs." "$outDir"; then
+    if [ "${CHECK_LFS:-1}" == "1" ] && grep -rF --files-with-matches "https://git-lfs." "$outDir"; then
         echo -e "${RED}Found git LFS files in $outDir!${NC}" && false
     fi
 
