@@ -79,6 +79,7 @@ if _mka bacon; then
         kernel/sony/msm8998/scripts/extract-ikconfig "$ANDROID_PRODUCT_OUT/kernel" | diff kernel/sony/msm8998/arch/arm64/configs/lineage-msm8998-yoshino-lilac_defconfig -
     fi
     (cd "$ANDROID_PRODUCT_OUT" && md5sum lineage-*.zip)
+    mv "$targetFile"* "$OUT_DIR_COMMON_BASE"
 else
     echo "Failed to build" && false
 fi
