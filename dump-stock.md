@@ -11,7 +11,7 @@ You will end up with one .img file and two .ext4 files.
 
 - `kernel_X-FLASH-ALL-C93B.img`
 - `system_X-FLASH-ALL-C93B.ext4`
-- `vendor_X-FLASH-ALL-C93B.ext4
+- `vendor_X-FLASH-ALL-C93B.ext4`
 
 Unpack the kernel with: `./unpackimg.sh kernel_X-FLASH-ALL-C93B.img`
 
