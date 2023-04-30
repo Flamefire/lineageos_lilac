@@ -8,8 +8,14 @@ function showError {
     echo -e "\033[0;31mERROR: $@\033[0m" && false
 }
 
-targetDir="$(mktemp -d)/$branch"
-mkdir "$targetDir"
+if [[ $# == 2 ]]; then
+    targetDir="$(readlink -f "$2")"
+else
+    targetDir="$(mktemp -d)"
+fi
+
+targetDir+="/$branch"
+[ -d "$targetDir" ] || mkdir "$targetDir"
 
 for dir in $(repo status | grep '^project ' | grep -F "branch $branch" | awk '{print $2}' | sed 's|/$||'); do
     echo "Processing project $dir"
