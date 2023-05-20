@@ -59,10 +59,7 @@
     
     The `make` below will abort with a more or less descriptive error if you miss this, so just try.
 
-    This also requires applying at least these patches in `device/sony/lilac/patches`:
-
-    - `allow-newer-kernel-clang.patch`
-    - `update-kernel-clang-for-host-cc.patch`
+    This also requires applying at least the new Clang patches below (`--minclang` option).
     
     Alternatively you can comment out the `TARGET_KERNEL_CLANG_VERSION :=` line in `device/sony/yoshino-common/BoardConfigPlatform.mk`.
 
@@ -82,6 +79,18 @@
 
     ```bash
     device/sony/lilac/patches/applyPatches.sh
+    ```
+
+    To apply only the minimal (required & security fix) patches:
+
+    ```bash
+    device/sony/lilac/patches/applyPatches.sh --minimal
+    ```
+
+    To apply only the minimal & new Clang patches:
+
+    ```bash
+    device/sony/lilac/patches/applyPatches.sh --minclang
     ```
 
 * Setup the environment
