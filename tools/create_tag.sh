@@ -21,7 +21,11 @@ for p in device/sony/lilac vendor/sony/lilac device/sony/yoshino-common kernel/s
         git fetch github &> /dev/null
         status=$(LC_ALL=C git status)
         if echo "$status" | grep -q '^On branch '"$my_branch" && echo "$status" | grep -qF 'nothing to commit, working tree clean'; then
-            echo -en "${LGREEN}READY: ${NC}"
+            if echo "$status" | grep -q '^Your branch is up to date with '"'github/$my_branch'"; then
+                echo -en "${LGREEN}READY: ${NC}"
+            else
+                echo -en "${GREEN}NOT PUSHED: ${NC}"
+            fi
         else
             echo -en "${RED}CHANGED: ${NC}"
         fi
