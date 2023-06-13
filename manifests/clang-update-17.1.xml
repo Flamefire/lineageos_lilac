@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
+    <project path="prebuilts-lineage-18.1/clang/host/linux-x86"
+        name="platform/prebuilts/clang/host/linux-x86"
+        groups="pdk"
+        clone-depth="1"
+        remote="aosp"
+        revision="refs/tags/android-11.0.0_r46" >
+
+        <!-- Make the new version available alongside the default versions -->
+        <linkfile
+            src="clang-r383902b1"
+            dest="prebuilts/clang/host/linux-x86/clang-r383902b1" />
+
+        <!-- Replace unneeded, conflicting build scripts with empty ones -->
+        <!-- (repo manifest syntax has no way to delete or rename them) -->
+        <copyfile
+            src="clang-r383902b1/MODULE_LICENSE_MIT"
+            dest="prebuilts-lineage-18.1/clang/host/linux-x86/Android.mk" />
+        <copyfile
+            src="clang-r383902b1/MODULE_LICENSE_MIT"
+            dest="prebuilts-lineage-18.1/clang/host/linux-x86/Android.bp" />
+        <copyfile
+            src="clang-r383902b1/MODULE_LICENSE_MIT"
+            dest="prebuilts-lineage-18.1/clang/host/linux-x86/soong/Android.bp" />
+    </project>
+
     <project path="prebuilts-lineage-19.1/clang/host/linux-x86"
         name="platform/prebuilts/clang/host/linux-x86"
         groups="pdk"
