@@ -1,0 +1,1 @@
+/lineageos/repo17/device/sony/yoshino-common/tools/checkBlobs.py
