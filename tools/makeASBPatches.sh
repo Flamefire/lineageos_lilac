@@ -25,6 +25,8 @@ for dir in $(repo status | grep '^project ' | grep -F "branch $branch" | awk '{p
     manifestRev=$(repo info . | grep -F "Manifest revision: " | awk '{print $3}')
     if [[ "$manifestRev" =~ ^refs/heads/.* ]]; then
         manifestRev=${manifestRev/'refs/heads'/m}
+    elif [[ "$manifestRev" =~ ^refs/tags/.* ]]; then
+        manifestRev=${manifestRev#'refs/tags/'}
     else
         manifestRev="github/$manifestRev"
     fi
@@ -54,7 +56,7 @@ for dir in $(repo status | grep '^project ' | grep -F "branch $branch" | awk '{p
     name=${name//\//_}
 
     echo "# PWD: $dir" > "$targetDir/$name.patch"
-    git diff -U7 $manifestRev..$branch >> "$targetDir/$name.patch"
+    git diff -U${DIFF_SIZE:-7} $manifestRev..$branch >> "$targetDir/$name.patch"
     git format-patch --output-directory "$targetDir/$name" --quiet $parentBranch..$branch
 done
 
