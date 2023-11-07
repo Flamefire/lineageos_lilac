@@ -53,7 +53,7 @@ fi
 if [ "${SKIP_EXTRACT:-0}" != "1" ] && ! (cd vendor/sony/lilac && git co . && git clean -fd && cd - && cd device/sony/lilac && ./extract-files.sh "$systemImgPath"); then
   echo "Failed to extract files!" && return 1
 else
-  device/sony/lilac/patches/applyPatches.sh || return 1
+  [ "${SKIP_PATCH:-0}" == "1" ] || device/sony/lilac/patches/applyPatches.sh || return 1
   set +u
   { source build/envsetup.sh && \
 	  lunch lineage_lilac-userdebug;
