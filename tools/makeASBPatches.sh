@@ -56,7 +56,7 @@ for dir in $(repo status | grep '^project ' | grep -F "branch $branch" | awk '{p
     name=${name//\//_}
 
     echo "# PWD: $dir" > "$targetDir/$name.patch"
-    git diff -U${DIFF_SIZE:-7} $manifestRev..$branch >> "$targetDir/$name.patch"
+    git diff -U${DIFF_SIZE:-7} --binary $manifestRev..$branch >> "$targetDir/$name.patch"
     git format-patch --output-directory "$targetDir/$name" --quiet $parentBranch..$branch
 done
 
