@@ -77,7 +77,7 @@ printStatus "Applying the restricted signature spoofing patch (based on $framewo
 patchPath="$PATCH_DIR/signature_spoofing_patches/$frameworks_base_patch"
 sed 's/android:protectionLevel="dangerous"/android:protectionLevel="signature|privileged"/' "$patchPath" | patch -d frameworks/base --quiet --force -p1 --no-backup-if-mismatch
 
-"$(dirname "${BASH_SOURCE[0]}")/build.sh"
+"$(dirname "${BASH_SOURCE[0]}")/build.sh" "$@"
 
 printStatus "Build done"
 reset_patches
