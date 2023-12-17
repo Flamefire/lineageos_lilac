@@ -55,6 +55,10 @@ for dir in $(repo status | grep '^project ' | grep -F "branch $branch" | awk '{p
     name=${name#LineageOS/}
     name=${name//\//_}
 
+    if [[ "$name" =~ ^platform_* ]]; then
+        name=android_${name#platform_}
+    fi
+
     echo "# PWD: $dir" > "$targetDir/$name.patch"
     git diff -U${DIFF_SIZE:-7} --binary $manifestRev..$branch >> "$targetDir/$name.patch"
     git format-patch --output-directory "$targetDir/$name" --quiet $parentBranch..$branch
