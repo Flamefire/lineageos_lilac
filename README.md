@@ -44,6 +44,12 @@
     repo sync
     ```
 
+* Tell git about Change-Id trailers
+
+    ```bash
+    git config --global --get-regexp 'trailer\.' | grep -qF 'Change-Id' || git config --global trailer.changeid.key "Change-Id"
+    ```
+
 ### Build procedure
 
 * Get newer Clang compiler(s)
