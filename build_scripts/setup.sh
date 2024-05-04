@@ -39,8 +39,12 @@ ensure_clang r383902b1 || return 1 # 18.1 Default clang (11.0.2)
 ensure_clang 3289846 || return 1   # Resource compiler
 
 if [ -d "$certPath" ]; then
-  mkdir -p vendor/certs
-  cp --no-clobber "$certPath"/* vendor/certs || return 1
+  mkdir -p vendor/extra/keys
+  cp --no-clobber "$certPath"/* vendor/extra/keys || return 1
+  if [[ ! -e "vendor/extra/product.mk" ]] || ! grep -qF "PRODUCT_DEFAULT_DEV_CERTIFICATE" vendor/extra/product.mk; then
+    echo "PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/extra/keys/releasekey" >> vendor/extra/product.mk
+    echo "PRODUCT_VERITY_SIGNING_KEY := vendor/extra/keys/verity" >> vendor/extra/product.mk
+  fi
 fi
 
 if [ ! -e "vendor/sony/lilac/lilac-vendor.mk" ]; then
