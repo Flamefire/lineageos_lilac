@@ -15,18 +15,18 @@ if [ ! -e "vendor/partner_gms/products/gms.mk" ]; then
   exit 1
 fi
 
-branch=$(repo info | sed -ne 's/Manifest branch: refs\/heads\///p' | sed 's/[^[:alnum:]]/_/g')
+branch=$(grep -F '<default revision=' .repo/manifests/default.xml | sed -E 's|.*"refs/heads/(.*)"|\1|')
 
 vendor=lineage
 case "$branch" in
-  lineage_17_1)
+  lineage-17.1)
     frameworks_base_patch="android_frameworks_base-Q.patch"
     ;;
-  lineage_18_1)
-    frameworks_base_patch="android_frameworks_base-R.patch"
+  lineage-18.1)
+    frameworks_base_patch="" # "android_frameworks_base-R.patch"
     ;;
-  lineage_19_1)
-    frameworks_base_patch="android_frameworks_base-S.patch"
+  lineage-19.1)
+    frameworks_base_patch="" #"android_frameworks_base-S.patch"
     ;;
   *)
     printStatus "Building branch $branch is not (yet) suppported"
@@ -73,9 +73,11 @@ fi
 printStatus "Patching build type check in $makefile_containing_version"
 sed -i "/\$(filter .*\$(LINEAGE_BUILDTYPE)/,/endif/d" "$makefile_containing_version"
 
-printStatus "Applying the restricted signature spoofing patch (based on $frameworks_base_patch) to frameworks/base"
-patchPath="$PATCH_DIR/signature_spoofing_patches/$frameworks_base_patch"
-sed 's/android:protectionLevel="dangerous"/android:protectionLevel="signature|privileged"/' "$patchPath" | patch -d frameworks/base --quiet --force -p1 --no-backup-if-mismatch
+if [[ -n $frameworks_base_patch ]]; then
+	printStatus "Applying the restricted signature spoofing patch (based on $frameworks_base_patch) to frameworks/base"
+	patchPath="$PATCH_DIR/signature_spoofing_patches/$frameworks_base_patch"
+	sed 's/android:protectionLevel="dangerous"/android:protectionLevel="signature|privileged"/' "$patchPath" | patch -d frameworks/base --quiet --force -p1 --no-backup-if-mismatch
+fi
 
 "$(dirname "${BASH_SOURCE[0]}")/build.sh" "$@"
 
