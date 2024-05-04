@@ -14,6 +14,9 @@ num_procs=$(nproc)
 
 function ensure_folder_symlink {
   path="$1"
+  if [ -e "$path" ]; then
+    return 0
+  fi
   dir="$(dirname "$path")"
   src="$MY_LINEAGE_ROOT/repo19/$path"
   [ -e "$src" ] || src="$MY_LINEAGE_ROOT/repo18/$path"
@@ -23,7 +26,7 @@ function ensure_folder_symlink {
       return 1
     fi
   done
-  [ -e "$path" ] || (cd "$(dirname "$path")" && ln -s "$src")
+  (cd "$(dirname "$path")" && ln -s "$src")
 }
 
 function ensure_clang {
