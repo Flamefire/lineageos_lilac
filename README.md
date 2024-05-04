@@ -22,7 +22,7 @@
 
 
     ```bash
-    repo init -u https://github.com/LineageOS/android.git -b lineage-17.1
+    repo init -u git@github.com:LineageOS/android.git -b lineage-17.1
     ```
 
     Instead of `lineage-17.1` one can also use `lineage-18.1` or `lineage-19.1`
@@ -31,7 +31,7 @@
 * Create local manifests, e.g. by checking out a copy of this project and symlinking the files from the appropriate folder according to the LineageOS version used:
 
     ```bash
-    git clone https://github.com/Flamefire/lineageos_lilac.git
+    git clone git@github.com:Flamefire/lineageos_lilac.git
     mkdir .repo/local_manifests
     cd .repo/local_manifests
     ln -s ../../lineageos_lilac/manifests/17.1/*.xml .
