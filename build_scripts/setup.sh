@@ -34,9 +34,12 @@ function ensure_clang {
   ensure_folder_symlink "prebuilts/clang/host/linux-x86/clang-$version"
 }
 
-ensure_clang r416183b1 || return 1 # Kernel Clang (11.0.7)
-ensure_clang r383902b1 || return 1 # 18.1 Default clang (11.0.2)
-ensure_clang 3289846 || return 1   # Resource compiler
+manifest_branch=$(grep -F '<default revision=' .repo/manifests/default.xml | sed -E 's|.*"refs/heads/(.*)"|\1|')
+if [[ ${manifest_branch#*/} == "lineage-17.1" ]]; then
+  ensure_clang r416183b1 || return 1 # Kernel Clang (11.0.7)
+  ensure_clang r383902b1 || return 1 # 18.1 Default clang (11.0.2)
+  ensure_clang 3289846 || return 1   # Resource compiler
+fi
 
 if [ -d "$certPath" ]; then
   mkdir -p vendor/extra/keys
