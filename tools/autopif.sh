@@ -1,38 +1,39 @@
 #!/usr/bin/env bash
 
-echo -e "Xiaomi.eu pif.json extractor script \
-  \n  by osm0sis @ xda-developers";
+# Xiaomi.eu pif.json extractor script by osm0sis @ xda-developers
+# Modified by Flamefire
 
-case "$0" in
-  *.sh) DIR="$0";;
-  *) DIR="$(lsof -p $$ 2>/dev/null | grep -o '/.*autopif.sh$')";;
-esac;
-DIR=$(dirname "$(readlink -f "$DIR")");
+set -euo pipefail
 
-cd "$DIR";
+function error {
+  echo "$@"
+  exit 1
+}
 
-if ! which wget >/dev/null; then
-    echo "autopif: wget not found";
-    exit 1;
-fi;
+if (( $# == 0 )); then
+    cd "$(dirname "$0")"
+else
+    { mkdir -p "$1" && cd "$1"; } || error "Failed to change to specified folder $1"
+fi
 
-echo -e "\n- Finding latest APK from RSS feed ...";
-APKURL=$(wget -q -O - --no-check-certificate https://sourceforge.net/projects/xiaomi-eu-multilang-miui-roms/rss?path=/xiaomi.eu/Xiaomi.eu-app | grep -o '<link>.*' | head -n 2 | tail -n 1 | sed 's;<link>\(.*\)</link>;\1;g');
-APKNAME=$(echo $APKURL | sed 's;.*/\(.*\)/download;\1;g');
-echo "$APKNAME";
+echo "- Finding latest APK from RSS feed ...";
+url="https://sourceforge.net/projects/xiaomi-eu-multilang-miui-roms/rss?path=/xiaomi.eu/Xiaomi.eu-app"
+APKURL=$(curl --silent --show-error "$url" | grep -o '<link>.*' | head -n 2 | tail -n 1 | sed 's;<link>\(.*\)</link>;\1;g') || error "Failed"
 
-if [ ! -f $APKNAME ]; then
-  echo "\n- Downloading $APKNAME ...";
-  wget -q --no-check-certificate -O $APKNAME $APKURL || exit 1;
-fi;
+APKNAME="xiaomi.apk"
+
+echo "- Downloading $url ...";
+curl --silent --show-error --location --output "${APKNAME}" "${APKURL}" || error "Failed"
 
 OUT=$(basename $APKNAME .apk);
-if [ ! -d $OUT ]; then
-  echo "\n- Extracting APK files with Apktool ...";
-  apktool d -f --no-src -p $OUT -o $OUT $APKNAME || exit 1;
-fi;
+echo "- Extracting APK files with Apktool ...";
+apktool d -f --no-src -p "$OUT" -o "$OUT" "$APKNAME" || error "Failed"
 
-echo -e "\n- Converting inject_fields.xml to pif.json ...";
-(echo '{';
-grep -o '<field.*' $OUT/res/xml/inject_fields.xml | sed 's;.*name=\(".*"\) type.* value=\(".*"\).*;  \1: \2,;g';
-echo '  "FIRST_API_LEVEL": "25",' ) | sed '$s/,/\n}/' | tee pif.json;
+echo "- Converting inject_fields.xml to pif.json ..."
+(
+  echo '{'
+  echo '  "FIRST_API_LEVEL": "25",'
+  grep -o '<field.*' "$OUT/res/xml/inject_fields.xml" | sed 's;.*name=\(".*"\) type.* value=\(".*"\).*;  \1: \2,;g'
+) | sed '$s/,/\n}/' | tee pif.json
+
+rm -r "$OUT" "$APKNAME" || error "Failed to delete temporaries"
