@@ -2,9 +2,9 @@
   "FIRST_API_LEVEL": "25",
   "MANUFACTURER": "Google",
   "BRAND": "google",
-  "DEVICE": "akita",
-  "PRODUCT": "akita_beta",
-  "MODEL": "Pixel 8a",
-  "FINGERPRINT": "google/akita_beta/akita:15/AP41.240925.009/12534705:user/release-keys",
-  "SECURITY_PATCH": "2024-10-05"
+  "DEVICE": "tokay",
+  "PRODUCT": "tokay_beta",
+  "MODEL": "Pixel 9",
+  "FINGERPRINT": "google/tokay_beta/tokay:Baklava/BP21.241121.009/12787338:user/release-keys",
+  "SECURITY_PATCH": "2024-12-05"
 }
