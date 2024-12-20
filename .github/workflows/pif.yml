@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install tool
         run: sudo apt-get -o Acquire::Retries=5 install -y apktool
@@ -35,7 +37,7 @@ jobs:
             git add tools/pif.json
             msg="Update PIF"
             if [[ "$(git show --format="%s" --no-patch)" == "$msg" ]]; then
-                git commit --amend
+                git commit --amend --no-edit
             else
                 git commit -m "$msg"
             fi
