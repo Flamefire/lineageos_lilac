@@ -5,6 +5,6 @@
   "DEVICE": "tokay",
   "PRODUCT": "tokay_beta",
   "MODEL": "Pixel 9",
-  "FINGERPRINT": "google/tokay_beta/tokay:15/BP11.241025.006/12620009:user/release-keys",
-  "SECURITY_PATCH": "2024-11-05"
+  "FINGERPRINT": "google/tokay_beta/tokay:Baklava/BP21.241121.009/12787338:user/release-keys",
+  "SECURITY_PATCH": "2024-12-05"
 }
