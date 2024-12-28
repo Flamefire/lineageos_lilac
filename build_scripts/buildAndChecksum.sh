@@ -1,24 +1,6 @@
 set -eu
 
-function _get_build_var {
-    set +u
-    if [[ $(type -t get_build_var) != "function" ]]; then
-        source build/envsetup.sh
-    fi
-    get_build_var "$@"
-    set -u
-}
-
-function _mka {
-    set +u
-    if [[ $(type -t mka) != "function" ]]; then
-        source build/envsetup.sh
-    fi
-    mka "$@"
-    res=$?
-    set -u
-    return $res
-}
+source "$(dirname "${BASH_SOURCE[0]}")/setup.sh"
 
 : "${num_procs:=$(nproc)}"
 GREEN='\033[0;32m'
@@ -27,7 +9,7 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-targetFileName="lineage-$(_get_build_var LINEAGE_VERSION).zip"
+targetFileName="lineage-$(get_build_var LINEAGE_VERSION).zip"
 targetFile="$ANDROID_PRODUCT_OUT/$targetFileName"
 
 function is_hardlink {
@@ -50,18 +32,18 @@ fi
 
 if [ "${CLEAN_BUILD:-0}" == "1" ]; then
     echo -e "${YELLOW}Cleaning build dir"
-    _mka installclean
+    mka installclean
 fi
 
-echo -e "${YELLOW}Starting build${NC}"
+echo -e "${YELLOW}Starting build...${NC}"
 
-if _mka bacon; then
+if mka bacon; then
     outDir="$OUT_DIR_COMMON_BASE/$(basename "$PWD")"
     if [ "${CHECK_LFS:-1}" == "1" ] && grep -rF --files-with-matches "https://git-lfs." "$outDir"; then
         echo -e "${RED}Found git LFS files in $outDir!${NC}" && false
     fi
 
-    otaFile="$ANDROID_PRODUCT_OUT/$(_get_build_var TARGET_PRODUCT)-ota-"*.zip
+    otaFile="$ANDROID_PRODUCT_OUT/$(get_build_var TARGET_PRODUCT)-ota-"*.zip
     [ ! -e "$otaFile" ] || rm "$otaFile"
     if is_hardlink "$targetFile"; then
         tmpFile="$(mktemp -p /dev/shm)"
