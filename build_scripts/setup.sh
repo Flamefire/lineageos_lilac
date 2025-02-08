@@ -4,6 +4,9 @@ defaultOutPath="$(readlink -f "$MY_LINEAGE_ROOT/out")"
 certPath="$(readlink -f "$MY_LINEAGE_ROOT/android-certs")"
 systemImgPath="$(readlink -f "$MY_LINEAGE_ROOT/SystemImg")"
 
+export BUILD_USERNAME=android-user
+export BUILD_HOSTNAME=r-fffb43f69680a4d8-5631
+
 export LINEAGE_DEV_CERTIFICATE=vendor/certs/releasekey
 export LINEAGE_VERITY_CERTIFICATE=vendor/certs/verity
 #export PRODUCT_ADB_KEYS=~/.android/adbkey.pub
