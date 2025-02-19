@@ -1,3 +1,5 @@
+ # shellcheck shell=bash
+
 MY_LINEAGE_ROOT="$(dirname "$PWD")"
 
 defaultOutPath="$(readlink -f "$MY_LINEAGE_ROOT/out")"
@@ -13,7 +15,6 @@ export LINEAGE_VERITY_CERTIFICATE=vendor/certs/verity
 export USE_CCACHE=1
 export CCACHE_EXEC=$(which ccache)
 export OUT_DIR_COMMON_BASE=${OUT_DIR_COMMON_BASE:-$defaultOutPath}
-num_procs=$(nproc)
 
 function ensure_folder_symlink {
   path="$1"
@@ -29,7 +30,7 @@ function ensure_folder_symlink {
       return 1
     fi
   done
-  (cd "$(dirname "$path")" && ln -s "$src")
+  (cd "$(dirname "$path")" && ln -s "$src" .)
 }
 
 function ensure_clang {
