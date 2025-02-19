@@ -3,7 +3,7 @@
 set -eu
 
 function printStatus () {
-  echo ">> [$(date)] $@" >&2
+  echo ">> [$(date)] $*" >&2
 }
 
 export WITH_GMS="true"
@@ -25,6 +25,8 @@ function reset_patches {
 }
 
 reset_patches
+# Ensure source dir is clean on exit
+trap 'reset_patches' EXIT
 
 makefile_containing_version="vendor/lineage/config/common.mk"
 if [ -f "vendor/lineage/config/version.mk" ]; then
@@ -37,6 +39,5 @@ set +e
 "$(dirname "${BASH_SOURCE[0]}")/build.sh" "$@"
 exit_code=$?
 printStatus "Build done"
-reset_patches
 
 exit $exit_code
