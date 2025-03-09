@@ -33,6 +33,7 @@ echo "- Converting inject_fields.xml to pif.json ..."
 (
   echo '{'
   echo '  "FIRST_API_LEVEL": "25",'
+  echo '  "RELEASE": "12",'
   grep -o '<field.*' "$OUT/res/xml/inject_fields.xml" | sed 's;.*name=\(".*"\) type.* value=\(".*"\).*;  \1: \2,;g'
 ) | sed '$s/,/\n}/' | tee pif.json
 
