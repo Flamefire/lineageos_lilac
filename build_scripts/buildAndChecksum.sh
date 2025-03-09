@@ -24,8 +24,10 @@ if [ -e "$targetFile" ]; then
         old_name="$(basename "$f")"
         new_name="${old_name/.zip/.bak.zip}"
         if is_hardlink "$f"; then
+            echo -e "Copy ${YELLOW}$old_name ${NC} to ${YELLOW} $new_name${NC}"
             cp -a "$f" "$(dirname "$f")/$new_name"
         else
+            echo -e "Move ${YELLOW}$old_name ${NC} to ${YELLOW} $new_name${NC}"
             mv "$f" "$(dirname "$f")/$new_name"
         fi
     done
