@@ -12,7 +12,8 @@ export BUILD_HOSTNAME=r-fffb43f69680a4d8-5631
 export LINEAGE_DEV_CERTIFICATE=vendor/certs/releasekey
 export LINEAGE_VERITY_CERTIFICATE=vendor/certs/verity
 #export PRODUCT_ADB_KEYS=~/.android/adbkey.pub
-export USE_CCACHE=1
+: "${USE_CCACHE:=1}"
+export USE_CCACHE
 export CCACHE_EXEC=$(which ccache)
 export OUT_DIR_COMMON_BASE=${OUT_DIR_COMMON_BASE:-$defaultOutPath}
 
