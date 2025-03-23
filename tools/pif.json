@@ -6,6 +6,6 @@
   "DEVICE": "akita",
   "PRODUCT": "akita_beta",
   "MODEL": "Pixel 8a",
-  "FINGERPRINT": "google/akita_beta/akita:Baklava/BP22.250124.010/13116449:user/release-keys",
-  "SECURITY_PATCH": "2025-02-05"
+  "FINGERPRINT": "google/akita_beta/akita:16/BP31.250610.004/13769805:user/release-keys",
+  "SECURITY_PATCH": "2025-07-05"
 }
