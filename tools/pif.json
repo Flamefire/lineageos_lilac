@@ -2,10 +2,8 @@
   "FIRST_API_LEVEL": "25",
   "RELEASE": "",
   "MANUFACTURER": "Google",
-  "BRAND": "google",
-  "DEVICE": "akita",
-  "PRODUCT": "akita_beta",
-  "MODEL": "Pixel 8a",
-  "FINGERPRINT": "google/akita_beta/akita:16/BP31.250610.004/13769805:user/release-keys",
-  "SECURITY_PATCH": "2025-07-05"
+  "PRODUCT": "blazer_beta",
+  "MODEL": "Pixel 10 Pro",
+  "FINGERPRINT": "google/blazer_beta/blazer:16/BP41.250916.010.A1/14281945:user/release-keys",
+  "SECURITY_PATCH": "2025-10-05"
 }
