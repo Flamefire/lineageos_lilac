@@ -2,10 +2,8 @@
   "FIRST_API_LEVEL": "25",
   "RELEASE": "",
   "MANUFACTURER": "Google",
-  "BRAND": "google",
-  "DEVICE": "akita",
-  "PRODUCT": "akita_beta",
-  "MODEL": "Pixel 8a",
-  "FINGERPRINT": "google/akita_beta/akita:16/BP31.250610.004/13769805:user/release-keys",
-  "SECURITY_PATCH": "2025-07-05"
+  "PRODUCT": "tangorpro_beta",
+  "MODEL": "Pixel Tablet",
+  "FINGERPRINT": "google/tangorpro_beta/tangorpro:16/BP41.250916.009.A1/14246511:user/release-keys",
+  "SECURITY_PATCH": "2025-10-05"
 }
