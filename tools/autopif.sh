@@ -59,12 +59,17 @@ fi
 echo "$MODEL ($PRODUCT)"
 
 # Get device fingerprint and security patch from OTA metadata
-OTA_LINK="$(echo "$OTA_LIST" | grep "$PRODUCT")"
+if ! OTA_LINK="$(echo "$OTA_LIST" | grep "$PRODUCT")"; then
+  echo "ERROR - Faild to find '$PRODUCT' in OTA list: $OTA_LIST"
+  exit 1
+fi
 [[ "$OTA_LINK" == "$OTA_LINK_CHECK" ]] || echo "WARNING: Different links: '$OTA_LINK' != '$OTA_LINK_CHECK'"
 set +o pipefail
 download "$OTA_LINK" | grep -ao '[ -~]\{10,\}' | head -n15 > PIXEL_ZIP_METADATA
 set -o pipefail
+echo "- Getting fingerprint ..."
 FINGERPRINT="$(grep -am1 'post-build=' PIXEL_ZIP_METADATA | cut -d= -f2)"
+echo "- Getting security level ..."
 SECURITY_PATCH="$(grep -am1 'security-patch-level=' PIXEL_ZIP_METADATA | cut -d= -f2)"
 
 [[ -n "$FINGERPRINT" ]] && [[ -n "$SECURITY_PATCH" ]] || error "Failed to get meta data from OTA"
