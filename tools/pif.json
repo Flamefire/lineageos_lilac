@@ -2,8 +2,8 @@
   "FIRST_API_LEVEL": "25",
   "RELEASE": "",
   "MANUFACTURER": "Google",
-  "PRODUCT": "shiba_beta",
-  "MODEL": "Pixel 8",
-  "FINGERPRINT": "google/shiba_beta/shiba:16/CP11.251114.007/14621658:user/release-keys",
+  "PRODUCT": "comet_beta",
+  "MODEL": "Pixel 9 Pro Fold",
+  "FINGERPRINT": "google/comet_beta/comet:16/CP11.251114.007/14621658:user/release-keys",
   "SECURITY_PATCH": "2025-12-05"
 }
