@@ -13,12 +13,13 @@ function error {
 function download {
   url=$1
   file=${2:-}
-  echo "- Downloading $url ..." >&2
+  echo -n "- Downloading $url ..." >&2
   if [[ -n "$file" ]]; then
     curl --silent --show-error --location --output "${file}" "${url}" || error "Failed"
   else
-    curl --silent --show-error --location "${url}" || error "Failed"
+    curl --silent --show-error --location "${url}" || error "Failed or interrupted"
   fi
+  echo "OK" >&2
 }
 
 if (( $# == 0 )); then
@@ -73,7 +74,9 @@ if [[ -z $OTA_LINK ]]; then
 fi
 
 echo "- Extracting metdata from OTA ..."
-download "$OTA_LINK" | grep -ao '[ -~]\{10,\}' > PIXEL_ZIP_METADATA
+set +o pipefail
+download "$OTA_LINK" | grep -ao '[ -~]\{10,\}' | head -n15 > PIXEL_ZIP_METADATA
+set -o pipefail
 echo "- Getting fingerprint ..."
 FINGERPRINT="$(grep -am1 'post-build=' PIXEL_ZIP_METADATA | cut -d= -f2)"
 echo "- Getting security level ..."
