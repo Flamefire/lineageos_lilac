@@ -37,7 +37,7 @@ jobs:
             git add tools/pif.json
             msg="Update PIF"
             if [[ "$(git show --format="%s" --no-patch)" == "$msg" ]]; then
-                git commit --amend --no-edit
+                git commit --amend --no-edit --allow-empty
             else
                 git commit -m "$msg"
             fi
