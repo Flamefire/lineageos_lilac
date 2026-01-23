@@ -52,7 +52,7 @@ for tries in $(seq 10); do
     MODEL="Pixel 6"
     PRODUCT="oriole_beta"
   else
-    rand_index=$(( $$ % count + 1 ))
+    rand_index=$(( ($$ + tries ) % count + 1 ))
     MODEL=$(echo "$MODEL_LIST" | sed -n "${rand_index}p")
     PRODUCT=$(echo "$PRODUCT_LIST" | sed -n "${rand_index}p")
   fi
