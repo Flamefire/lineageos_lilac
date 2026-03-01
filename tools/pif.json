@@ -2,8 +2,8 @@
   "FIRST_API_LEVEL": "25",
   "RELEASE": "",
   "MANUFACTURER": "Google",
-  "PRODUCT": "tangorpro_beta",
-  "MODEL": "Pixel Tablet",
-  "FINGERPRINT": "google/tangorpro_beta/tangorpro:16/CP11.251209.009.A1/14840729:user/release-keys",
-  "SECURITY_PATCH": "2026-01-05"
+  "PRODUCT": "panther_beta",
+  "MODEL": "Pixel 7",
+  "FINGERPRINT": "google/panther_beta/panther:16/CP11.251209.009/14837756:user/release-keys",
+  "SECURITY_PATCH": "2025-12-05"
 }
