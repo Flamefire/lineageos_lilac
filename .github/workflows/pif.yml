@@ -13,7 +13,7 @@ jobs:
     if: github.repository_owner == 'Flamefire'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -23,16 +23,17 @@ jobs:
             sudo apt-get -o Acquire::Retries=5 install -y apktool
 
       - name: Update PIF
+        id: update-pif
         run: |
             bash tools/autopif.sh
             if git diff --exit-code tools/pif.json; then
-                echo "updated=no" >> $GITHUB_ENV
+                echo "updated=no" >> "$GITHUB_OUTPUT"
             else
-                echo "updated=yes" >> $GITHUB_ENV
+                echo "updated=yes" >> "$GITHUB_OUTPUT"
             fi
-
+      
       - name: Commit new file
-        if: env.updated == 'yes'
+        if: steps.update-pif.outputs.updated == 'yes'
         run: |
             git config --global user.email "Flamefire@users.noreply.github.com"
             git config --global user.name "Alexander Grund"
